@@ -1,0 +1,14 @@
+--- #YAML:1.0
+name:                Lexical-Persistence
+version:             0.95
+abstract:            Persistent, continuation-like contexts for lexical variables.
+license:             perl
+generated_by:        ExtUtils::MakeMaker version 6.30_01
+author:              Rocco Caputo <rcaputo@cpan.org>
+distribution_type:   module
+requires:     
+    Devel::LexAlias:               0.04
+    PadWalker:                     1.1
+meta-spec:
+    url: <http://module-build.sourceforge.net/META-spec-new.html>;
+    version: 1.1

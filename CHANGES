@@ -1,0 +1,28 @@
+=========================
+2006-11-14 08:29:15 v0_95
+=========================
+
+  2006-11-14 08:28:37 (r4) by rcaputo; lib/Lexical/Persistence.pm M
+
+    Back down the version number for the initial release, in case there
+    are distro problems to address. 
+
+  2006-11-14 08:26:51 (r3) by rcaputo; MANIFEST M
+
+    Add the tests. D'oh! 
+
+  2006-11-14 08:25:55 (r2) by rcaputo
+  t/03_pod_coverage.t A; t/02_pod.t A
+
+    Add POD tests. Yay, kwalitee! 
+
+  2006-11-14 08:18:15 (r1) by rcaputo
+  README A; /trunk A; eg/persistence.perl A; /branches A; t A; lib A;
+  MANIFEST A; lib/Lexical/Persistence.pm A; lib/Lexical A; Makefile.PL A;
+  t/01_basics.t A; /tags A; eg A
+
+    Initial project setup. 
+
+==============
+End of Excerpt
+==============
