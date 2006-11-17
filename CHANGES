@@ -1,4 +1,19 @@
 =========================
+2006-11-17 06:22:05 v0_96
+=========================
+
+  2006-11-17 06:20:51 (r7) by rcaputo; eg/persistence.perl M
+
+    Fix based on changes in the module and feedback from Jeff Bisbee and
+    Marlon Bailey. 
+
+  2006-11-17 06:12:07 (r6) by rcaputo
+  README M; lib/Lexical/Persistence.pm M
+
+    Doc rewrite. parse_variable() takes on the responsibility of deciding
+    whether a context member requires a sigil. 
+
+=========================
 2006-11-14 08:29:15 v0_95
 =========================
 

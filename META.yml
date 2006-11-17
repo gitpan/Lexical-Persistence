@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                Lexical-Persistence
-version:             0.95
+version:             0.96
 abstract:            Persistent, continuation-like contexts for lexical variables.
 license:             perl
 generated_by:        ExtUtils::MakeMaker version 6.30_01
