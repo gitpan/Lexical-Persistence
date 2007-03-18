@@ -1,4 +1,4 @@
-# $Id: Makefile.PL 1 2006-11-14 08:18:15Z rcaputo $
+# $Id: Makefile.PL 9 2006-11-17 06:29:03Z rcaputo $
 
 use warnings;
 use strict;
@@ -9,8 +9,9 @@ use ExtUtils::MakeMaker;
 ### ExtUtils::MakeMaker and Module::Build will complain about them if
 ### they aren't present now.
 
-open(TOUCH, ">>CHANGES") and close TOUCH;
-open(TOUCH, ">>META.yml") and close TOUCH;
+foreach my $touched (qw(CHANGES META.yml README)) {
+	open TOUCH, ">>", $touched and close TOUCH;
+}
 
 ### Generate Makefile.PL.
 
@@ -25,7 +26,9 @@ WriteMakefile(
     SUFFIX   => 'gz',
     PREOP    => (
       '../repo-tools/svn-log.perl | ' .
-      '/usr/bin/tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES;'
+      '/usr/bin/tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES; ' .
+			'perldoc lib/Lexical/Persistence.pm | ' .
+			'/usr/bin/tee ./$(DISTNAME)-$(VERSION)/README > ./README'
     ),
   },
 

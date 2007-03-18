@@ -24,7 +24,10 @@ SSYYNNOOPPSSIISS
                        my $_i++;         # Dynamic.
                        my $j++;          # Persistent.
 
-                       print "arg_number($arg_number) narf_x($narf_x) _i($_i) j($j)\n";
+                       print "arg_number = $arg_number\n";
+                       print "\tnarf_x = $narf_x\n";
+                       print "\t_i = $_i\n";
+                       print "\tj = $j\n";
                }
 
 DDEESSCCRRIIPPTTIIOONN
@@ -32,9 +35,9 @@ DDEESSCCRRIIPPTTIIOONN
        behaviors listed here are the defaults.  Subclasses can override nearly
        every aspect of Lexical::Persistence’s behavior.
 
-       Lexical::Persistence lets your code access persistent data through lex‐
-       ical variables.  This example prints "some value" because the value of
-       $x perists in the $lp object between _s_e_t_t_e_r_(_) and _g_e_t_t_e_r_(_).
+       Lexical::Persistence lets your code access persistent data through
+       lexical variables.  This example prints "some value" because the value
+       of $x perists in the $lp object between _s_e_t_t_e_r_(_) and _g_e_t_t_e_r_(_).
 
                use Lexical::Persistence;
 
@@ -50,8 +53,8 @@ DDEESSCCRRIIPPTTIIOONN
        By default, Lexical::Persistence supports accessing data from multiple
        sources through the use of variable prefixes.  The _s_e_t___c_o_n_t_e_x_t_(_) member
        sets each data source.  It takes a prefix name and a hash of key/value
-       pairs.  By default, the keys must have sigils representing their vari‐
-       able types.
+       pairs.  By default, the keys must have sigils representing their
+       variable types.
 
                use Lexical::Persistence;
 
@@ -59,7 +62,9 @@ DDEESSCCRRIIPPTTIIOONN
                $lp−>set_context( pi => { ’$member’ => 3.141 } );
                $lp−>set_context( e => { ’@member’ => [ 2, ’.’, 7, 1, 8 ] } );
                $lp−>set_context(
-                       animal => { ’%member’ => { cat => "meow", dog => "woof" } }
+                       animal => {
+                               ’%member’ => { cat => "meow", dog => "woof" }
+                       }
                );
 
                $lp−>call(\&display);
@@ -94,7 +99,7 @@ DDEESSCCRRIIPPTTIIOONN
                );
 
                my $lp = Lexical::Persistence−>new();
-         while (my ($animal, $sound) = each %animals) {
+               while (my ($animal, $sound) = each %animals) {
                        $lp−>call(\&display, animal => $animal, sound => $sound);
                }
 
@@ -131,8 +136,8 @@ DDEESSCCRRIIPPTTIIOONN
        Prefixes are the characters leading up to the first underscore in a
        lexical variable’s name.  However, there’s also a default context named
        underscore.  It’s literally "_" because the underscore is not legal in
-       a context name by default.  Variables without prefixes, or with pre‐
-       fixes that have not been previously defined by _s_e_t___c_o_n_t_e_x_t_(_), are
+       a context name by default.  Variables without prefixes, or with
+       prefixes that have not been previously defined by _s_e_t___c_o_n_t_e_x_t_(_), are
        stored in that context.
 
        The _g_e_t___c_o_n_t_e_x_t_(_) member returns a hash for a named context.  This
@@ -142,7 +147,9 @@ DDEESSCCRRIIPPTTIIOONN
 
                my $lp = Lexical::Persistence−>new();
                $lp−>set_context(
-                       _ => { ’@mind’ => [qw(My mind is going. I can feel it.)] }
+                       _ => {
+                               ’@mind’ => [qw(My mind is going. I can feel it.)]
+                       }
                );
 
                while (1) {
@@ -196,8 +203,8 @@ DDEESSCCRRIIPPTTIIOONN
        nneeww
 
        Create a new lexical persistence object.  This object will store one or
-       more persistent contexts.  When called by this object, lexical vari‐
-       ables will take on the values kept in this object.
+       more persistent contexts.  When called by this object, lexical
+       variables will take on the values kept in this object.
 
        iinniittiiaalliizzee__ccoonntteexxttss
 
@@ -236,15 +243,26 @@ DDEESSCCRRIIPPTTIIOONN
 
        Call CODEREF with lexical persistence and an optional ARGUMENT_LIST,
        consisting of name => value pairs.  Unlike with _s_e_t___c_o_n_t_e_x_t_(_), however,
-       argument names do not need sigils.  This may change in the future, how‐
-       ever, as it’s easy to access an argument with the wrong variable type.
+       argument names do not need sigils.  This may change in the future,
+       however, as it’s easy to access an argument with the wrong variable
+       type.
 
        The ARGUMENT_LIST is passed to the called CODEREF through @_ in the
-       usual way.  They’re also available as $arg_name variables for conve‐
-       nience.
+       usual way.  They’re also available as $arg_name variables for
+       convenience.
 
        See _p_u_s_h___a_r_g___c_o_n_t_e_x_t_(_) for information about how $arg_name works, and
        what you can do to change that behavior.
+
+       iinnvvookkee OOBBJJEECCTT,, MMEETTHHOODD,, AARRGGUUMMEENNTT__LLIISSTT
+
+       Invoke OBJECT−>METHOD(ARGUMENT_LIST) while maintaining state for the
+       METHOD’s lexical variables.  Written in terms of _c_a_l_l_(_), except that it
+       takes OBJECT and METHOD rather than CODEREF.  See _c_a_l_l_(_) for more
+       details.
+
+       May have issues with methods invoked via AUTOLOAD, as _i_n_v_o_k_e_(_) uses
+       _c_a_n_(_) to find the method’s CODEREF for _c_a_l_l_(_).
 
        wwrraapp CCOODDEERREEFF
 
@@ -259,9 +277,9 @@ DDEESSCCRRIIPPTTIIOONN
 
        This method determines whether VARIABLE_NAME should be persistent.  If
        it should, _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) will return three values: the variable’s
-       sigil (’$’, ’@’ or ’%’), the context name in which the variable per‐
-       sists (see _s_e_t___c_o_n_t_e_x_t_(_)), and the name of the member within that con‐
-       text where the value is stored.  _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) returns nothing if
+       sigil (’$’, ’@’ or ’%’), the context name in which the variable
+       persists (see _s_e_t___c_o_n_t_e_x_t_(_)), and the name of the member within that
+       context where the value is stored.  _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) returns nothing if
        VARIABLE_NAME should not be persistent.
 
        _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) also determines whether the member name includes its
@@ -269,8 +287,8 @@ DDEESSCCRRIIPPTTIIOONN
        have no sigils.  This is done to support the unadorned argument names
        used by _c_a_l_l_(_).
 
-       This method implements a default behavior.  It’s intended to be over‐
-       ridden or extended by subclasses.
+       This method implements a default behavior.  It’s intended to be
+       overridden or extended by subclasses.
 
        ggeett__mmeemmbbeerr__rreeff SSIIGGIILL,, CCOONNTTEEXXTT,, MMEEMMBBEERR
 
@@ -284,19 +302,19 @@ DDEESSCCRRIIPPTTIIOONN
        The persistent value is created if it doesn’t exist.  The initial value
        is undef or empty, depending on its type.
 
-       This method implements a default behavior.  It’s intended to be over‐
-       ridden or extended by subclasses.
+       This method implements a default behavior.  It’s intended to be
+       overridden or extended by subclasses.
 
        ppuusshh__aarrgg__ccoonntteexxtt AARRGGUUMMEENNTT__LLIISSTT
 
        Convert a named ARGUMENT_LIST into members of an argument context, and
-       call _s_e_t___c_o_n_t_e_x_t_(_) to declare that context.  This is how $arg_foo vari‐
-       ables are supported.  This method returns the previous context, fetched
-       by _g_e_t___c_o_n_t_e_x_t_(_) before the new context is set.
+       call _s_e_t___c_o_n_t_e_x_t_(_) to declare that context.  This is how $arg_foo
+       variables are supported.  This method returns the previous context,
+       fetched by _g_e_t___c_o_n_t_e_x_t_(_) before the new context is set.
 
-       This method implements a default behavior.  It’s intended to be over‐
-       ridden or extended by subclasses.  For example, to redefine the parame‐
-       ters as $param_foo.
+       This method implements a default behavior.  It’s intended to be
+       overridden or extended by subclasses.  For example, to redefine the
+       parameters as $param_foo.
 
        See _p_o_p___a_r_g___c_o_n_t_e_x_t_(_) for the other side of this coin.
 
@@ -306,15 +324,15 @@ DDEESSCCRRIIPPTTIIOONN
        OLD_ARG_CONTEXT is the return value from the _p_u_s_h___a_r_g___c_o_n_t_e_x_t_(_) call
        just prior to the target function’s call.
 
-       This method implements a default behavior.  It’s intended to be over‐
-       ridden or extended by subclasses.
+       This method implements a default behavior.  It’s intended to be
+       overridden or extended by subclasses.
 
 BBUUGGSS
-       Read them at http://rt.cpan.org/Public/Dist/Display.html?Name=lexi‐
-       cal−persistence
+       Read them at
+       http://rt.cpan.org/Public/Dist/Display.html?Name=lexical−persistence
 
-       Report them at http://rt.cpan.org/Public/Bug/Report.html?Queue=lexi‐
-       cal−persistence
+       Report them at
+       http://rt.cpan.org/Public/Bug/Report.html?Queue=lexical−persistence
 
 SSEEEE AALLSSOO
        POE::Stage, Devel::LexAlias, PadWalker, Catalyst::Controller::BindLex.
@@ -332,11 +350,11 @@ AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
        the original, functional design.  While Higher Order Perl is fun for
        development, I have to say the move to OO was a good one.
 
-       The South Florida Perl Mongers, especially Jeff Bisbee and Marlon Bai‐
-       ley, for documentation feedback.
+       The South Florida Perl Mongers, especially Jeff Bisbee and Marlon
+       Bailey, for documentation feedback.
 
        irc://irc.perl.org/poe for support and feedback.
 
 
 
-perl v5.8.6                       2006‐11‐17           Lexical::Persistence(3)
+perl v5.8.8                       2007‐03‐18           Lexical::Persistence(3)

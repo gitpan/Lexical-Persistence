@@ -1,4 +1,26 @@
 =========================
+2007-03-18 19:27:56 v0_97
+=========================
+
+  2007-03-18 19:27:04 (r12) by rcaputo; lib/Lexical/Persistence.pm M
+
+    Bump up the version.
+
+  2007-03-18 19:25:29 (r11) by rcaputo; eg/repl-mst.perl A; MANIFEST M
+
+    Add a small sample REPL (read/eval/print loop) by Matt S. Trout. 
+
+  2006-11-20 04:23:59 (r10) by rcaputo
+  lib/Lexical/Persistence.pm M; t/01_basics.t M
+
+    Add invoke() for invoking methods. Its use is similar to call(), and
+    in fact it's implemented in terms of that method. 
+
+  2006-11-17 06:29:03 (r9) by rcaputo; README D; Makefile.PL M
+
+    Automatically generate the README from perldoc at dist time. 
+
+=========================
 2006-11-17 06:22:05 v0_96
 =========================
 
