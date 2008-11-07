@@ -1,4 +1,4 @@
-# $Id: Persistence.pm 12 2007-03-18 19:27:04Z rcaputo $
+# $Id: Persistence.pm 18 2008-11-07 18:11:57Z rcaputo $
 
 =head1 NAME
 
@@ -198,6 +198,21 @@ Gets you this output:
 	context 1's foo
 	the foo in context 2
 
+You can also compile and execute perl code contained in plain strings in a
+a lexical environment that already contains the persisted variables.
+
+	use Lexical::Persistence;
+
+	my $lp = Lexical::Persistence->new();
+
+	$lp->do( 'my $message = "Hello, world" );
+
+	$lp->do( 'print "$message\n"' );
+
+Which gives the output:
+
+	Hello, world
+
 If you come up with other fun uses, let us know.
 
 =cut
@@ -207,7 +222,7 @@ package Lexical::Persistence;
 use warnings;
 use strict;
 
-our $VERSION = '0.97';
+our $VERSION = '0.98';
 
 use Devel::LexAlias qw(lexalias);
 use PadWalker qw(peek_sub);
@@ -381,6 +396,95 @@ sub wrap {
 	};
 }
 
+=head2 prepare CODE
+
+Wrap a CODE string in a subroutine definition, and prepend
+declarations for all the variables stored in the Lexical::Persistence
+default context.  This avoids having to declare variables explicitly
+in the code using 'my'.  Returns a new code string ready for Perl's
+built-in eval().  From there, a program may $lp->call() the code or
+$lp->wrap() it.
+
+Also see L</compile()>, which is a convenient wrapper for prepare()
+and Perl's built-in eval().
+
+Also see L</do()>, which is a convenient way to prepare(), eval() and
+call() in one step.
+
+=cut
+
+sub prepare {
+	my ($self, $code) = @_;
+
+	# Don't worry about values because $self->call() will deal with them
+	my $vars = join(
+		" ", map { "my $_;" }
+		keys %{ $self->get_context('_') }
+	);
+
+	# Declare the variables OUTSIDE the actual sub. The compiler will
+	# pull any into the sub that are actually used. Any that aren't will
+	# just get dropped at this point
+	return "$vars sub { $code }";
+}
+
+=head2 compile CODE
+
+compile() is a convenience method to prepare() a CODE string, eval()
+it, and then return the resulting coderef.  If it fails, it returns
+false, and $@ will explain why.
+
+=cut
+
+sub compile {
+	my ($self, $code) = @_;
+	return eval($self->prepare($code));
+}
+
+=head2 do CODE
+
+do() is a convenience method to compile() a CODE string and execute
+it.  It returns the result of CODE's execution, or it throws an
+exception on failure.
+
+This example prints the numbers 1 through 10.  Note, however, that
+do() compiles the same code each time.
+
+	use Lexical::Persistence;
+
+	my $lp = Lexical::Persistence->new();
+	$lp->do('my $count = 0');
+	$lp->do('print ++$count, "\\n"') for 1..10;
+
+Lexical declarations are preserved across do() invocations, such as
+with $count in the surrounding examples.  This behavior is part of
+prepare(), which do() uses via compile().
+
+The previous example may be rewritten in terms of compile() and call()
+to avoid recompiling code every iteration.  Lexical declarations are
+preserved between do() and compile() as well:
+
+	use Lexical::Persistence;
+
+	my $lp = Lexical::Persistence->new();
+	$lp->do('my $count = 0');
+	my $coderef = $lp->compile('print ++$count, "\\n"');
+	$lp->call($coderef) for 1..10;
+
+do() inherits some limitations from PadWalker's peek_sub().  For
+instance, it cannot alias lexicals within sub() definitions in the
+supplied CODE string.  However, Lexical::Persistence can do this with
+careful use of eval() and some custom CODE preparation.
+
+=cut
+
+sub do {
+	my ($self, $code) = @_;
+
+	my $sub = $self->compile( $code ) or die $@;
+	$self->call( $sub );
+}
+
 =head2 parse_variable VARIABLE_NAME
 
 This method determines whether VARIABLE_NAME should be persistent.  If
@@ -522,6 +626,8 @@ were the demon and the other demon sitting on my shoulders.
 Nick Perez convinced me to make this a class rather than persist with
 the original, functional design.  While Higher Order Perl is fun for
 development, I have to say the move to OO was a good one.
+
+Paul "LeoNerd" Evans contributed the compile() and eval() methods.
 
 The South Florida Perl Mongers, especially Jeff Bisbee and Marlon
 Bailey, for documentation feedback.

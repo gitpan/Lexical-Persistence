@@ -1,64 +1,29 @@
-=========================
-2007-03-18 19:27:56 v0_97
-=========================
+=================================
+2008-11-07T18:12:14.808090Z v0_98
+=================================
 
-  2007-03-18 19:27:04 (r12) by rcaputo; lib/Lexical/Persistence.pm M
+  2008-11-07 18:11:57 (r18) by rcaputo; lib/Lexical/Persistence.pm M
 
-    Bump up the version.
+    Ready for 0.98
 
-  2007-03-18 19:25:29 (r11) by rcaputo; eg/repl-mst.perl A; MANIFEST M
+  2008-11-07 04:36:12 (r17) by rcaputo; lib/Lexical/Persistence.pm M
 
-    Add a small sample REPL (read/eval/print loop) by Matt S. Trout. 
+    Replace eval() with do() in the docs. Note that lexical declarations
+    are preserved by compile(), which is used by do(), so declared
+    variables need not be redeclared all the time.
 
-  2006-11-20 04:23:59 (r10) by rcaputo
-  lib/Lexical/Persistence.pm M; t/01_basics.t M
+  2008-11-03 20:02:16 (r16) by rcaputo; t/04_eval.t M
 
-    Add invoke() for invoking methods. Its use is similar to call(), and
-    in fact it's implemented in terms of that method. 
+    Fix tests to use do() rather than eval().
 
-  2006-11-17 06:29:03 (r9) by rcaputo; README D; Makefile.PL M
+  2008-11-03 19:57:55 (r15) by rcaputo; lib/Lexical/Persistence.pm M
 
-    Automatically generate the README from perldoc at dist time. 
+    Another attempt at eval(), this time called do().
 
-=========================
-2006-11-17 06:22:05 v0_96
-=========================
+  2008-11-01 05:38:30 (r14) by rcaputo
+  t/04_eval.t A; MANIFEST M; lib/Lexical/Persistence.pm M
 
-  2006-11-17 06:20:51 (r7) by rcaputo; eg/persistence.perl M
-
-    Fix based on changes in the module and feedback from Jeff Bisbee and
-    Marlon Bailey. 
-
-  2006-11-17 06:12:07 (r6) by rcaputo
-  README M; lib/Lexical/Persistence.pm M
-
-    Doc rewrite. parse_variable() takes on the responsibility of deciding
-    whether a context member requires a sigil. 
-
-=========================
-2006-11-14 08:29:15 v0_95
-=========================
-
-  2006-11-14 08:28:37 (r4) by rcaputo; lib/Lexical/Persistence.pm M
-
-    Back down the version number for the initial release, in case there
-    are distro problems to address. 
-
-  2006-11-14 08:26:51 (r3) by rcaputo; MANIFEST M
-
-    Add the tests. D'oh! 
-
-  2006-11-14 08:25:55 (r2) by rcaputo
-  t/03_pod_coverage.t A; t/02_pod.t A
-
-    Add POD tests. Yay, kwalitee! 
-
-  2006-11-14 08:18:15 (r1) by rcaputo
-  README A; /trunk A; eg/persistence.perl A; /branches A; t A; lib A;
-  MANIFEST A; lib/Lexical/Persistence.pm A; lib/Lexical A; Makefile.PL A;
-  t/01_basics.t A; /tags A; eg A
-
-    Initial project setup. 
+    Apply Paul "LeoNerd" Evans' patch to add compile() and eval(). 
 
 ==============
 End of Excerpt

@@ -198,6 +198,22 @@ DDEESSCCRRIIPPTTIIOONN
                context 1’s foo
                the foo in context 2
 
+       You can also compile and execute perl code contained in plain strings
+       in a a lexical environment that already contains the persisted
+       variables.
+
+               use Lexical::Persistence;
+
+               my $lp = Lexical::Persistence−>new();
+
+               $lp−>do( ’my $message = "Hello, world" );
+
+               $lp−>do( ’print "$message\n"’ );
+
+       Which gives the output:
+
+               Hello, world
+
        If you come up with other fun uses, let us know.
 
        nneeww
@@ -272,6 +288,62 @@ DDEESSCCRRIIPPTTIIOONN
        lexicals within the called CODEREF.
 
        See _c_a_l_l_(_) and _p_u_s_h___a_r_g___c_o_n_t_e_x_t_(_) for more details.
+
+       pprreeppaarree CCOODDEE
+
+       Wrap a CODE string in a subroutine definition, and prepend declarations
+       for all the variables stored in the Lexical::Persistence default
+       context.  This avoids having to declare variables explicitly in the
+       code using ’my’.  Returns a new code string ready for Perl’s built‐in
+       _e_v_a_l_(_).  From there, a program may $lp−>_c_a_l_l_(_) the code or $lp−>_w_r_a_p_(_)
+       it.
+
+       Also see "_c_o_m_p_i_l_e_(_)", which is a convenient wrapper for _p_r_e_p_a_r_e_(_) and
+       Perl’s built‐in _e_v_a_l_(_).
+
+       Also see "_d_o_(_)", which is a convenient way to _p_r_e_p_a_r_e_(_), _e_v_a_l_(_) and
+       _c_a_l_l_(_) in one step.
+
+       ccoommppiillee CCOODDEE
+
+       _c_o_m_p_i_l_e_(_) is a convenience method to _p_r_e_p_a_r_e_(_) a CODE string, _e_v_a_l_(_)
+       it, and then return the resulting coderef.  If it fails, it returns
+       false, and $@ will explain why.
+
+       ddoo CCOODDEE
+
+       _d_o_(_) is a convenience method to _c_o_m_p_i_l_e_(_) a CODE string and execute it.
+       It returns the result of CODE’s execution, or it throws an exception on
+       failure.
+
+       This example prints the numbers 1 through 10.  Note, however, that _d_o_(_)
+       compiles the same code each time.
+
+               use Lexical::Persistence;
+
+               my $lp = Lexical::Persistence−>new();
+               $lp−>do(’my $count = 0’);
+               $lp−>do(’print ++$count, "\\n"’) for 1..10;
+
+       Lexical declarations are preserved across _d_o_(_) invocations, such as
+       with $count in the surrounding examples.  This behavior is part of
+       _p_r_e_p_a_r_e_(_), which _d_o_(_) uses via _c_o_m_p_i_l_e_(_).
+
+       The previous example may be rewritten in terms of _c_o_m_p_i_l_e_(_) and _c_a_l_l_(_)
+       to avoid recompiling code every iteration.  Lexical declarations are
+       preserved between _d_o_(_) and _c_o_m_p_i_l_e_(_) as well:
+
+               use Lexical::Persistence;
+
+               my $lp = Lexical::Persistence−>new();
+               $lp−>do(’my $count = 0’);
+               my $coderef = $lp−>compile(’print ++$count, "\\n"’);
+               $lp−>call($coderef) for 1..10;
+
+       _d_o_(_) inherits some limitations from PadWalker’s _p_e_e_k___s_u_b_(_).  For
+       instance, it cannot alias lexicals within _s_u_b_(_) definitions in the
+       supplied CODE string.  However, Lexical::Persistence can do this with
+       careful use of _e_v_a_l_(_) and some custom CODE preparation.
 
        ppaarrssee__vvaarriiaabbllee VVAARRIIAABBLLEE__NNAAMMEE
 
@@ -350,6 +422,8 @@ AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
        the original, functional design.  While Higher Order Perl is fun for
        development, I have to say the move to OO was a good one.
 
+       Paul "LeoNerd" Evans contributed the _c_o_m_p_i_l_e_(_) and _e_v_a_l_(_) methods.
+
        The South Florida Perl Mongers, especially Jeff Bisbee and Marlon
        Bailey, for documentation feedback.
 
@@ -357,4 +431,4 @@ AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
 
 
 
-perl v5.8.8                       2007‐03‐18           Lexical::Persistence(3)
+perl v5.8.8                       2008‐11‐07           Lexical::Persistence(3)
