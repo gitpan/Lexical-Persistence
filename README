@@ -3,7 +3,7 @@ Lexical::Persistence(3)User Contributed Perl DocumentatioLnexical::Persistenc
 
 
 NNAAMMEE
-       Lexical::Persistence − Persistent lexical variable values for arbitrary
+       Lexical::Persistence - Persistent lexical variable values for arbitrary
        calls.
 
 SSYYNNOOPPSSIISS
@@ -11,9 +11,9 @@ SSYYNNOOPPSSIISS
 
                use Lexical::Persistence;
 
-               my $persistence = Lexical::Persistence−>new();
+               my $persistence = Lexical::Persistence->new();
                foreach my $number (qw(one two three four five)) {
-                       $persistence−>call(\&target, number => $number);
+                       $persistence->call(\&target, number => $number);
                }
 
                exit;
@@ -33,7 +33,7 @@ SSYYNNOOPPSSIISS
 DDEESSCCRRIIPPTTIIOONN
        Lexical::Persistence does a few things, all related.  Note that all the
        behaviors listed here are the defaults.  Subclasses can override nearly
-       every aspect of Lexical::Persistence’s behavior.
+       every aspect of Lexical::Persistence's behavior.
 
        Lexical::Persistence lets your code access persistent data through
        lexical variables.  This example prints "some value" because the value
@@ -41,9 +41,9 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               $lp−>call(\&setter);
-               $lp−>call(\&getter);
+               my $lp = Lexical::Persistence->new();
+               $lp->call(\&setter);
+               $lp->call(\&getter);
 
                sub setter { my $x = "some value" }
                sub getter { print my $x, "\n" }
@@ -58,16 +58,16 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               $lp−>set_context( pi => { ’$member’ => 3.141 } );
-               $lp−>set_context( e => { ’@member’ => [ 2, ’.’, 7, 1, 8 ] } );
-               $lp−>set_context(
+               my $lp = Lexical::Persistence->new();
+               $lp->set_context( pi => { '$member' => 3.141 } );
+               $lp->set_context( e => { '@member' => [ 2, '.', 7, 1, 8 ] } );
+               $lp->set_context(
                        animal => {
-                               ’%member’ => { cat => "meow", dog => "woof" }
+                               '%member' => { cat => "meow", dog => "woof" }
                        }
                );
 
-               $lp−>call(\&display);
+               $lp->call(\&display);
 
                sub display {
                        my ($pi_member, @e_member, %animal_member);
@@ -95,12 +95,12 @@ DDEESSCCRRIIPPTTIIOONN
 
                my %animals = (
                        snake => "hiss",
-                       plane => "I’m Cartesian",
+                       plane => "I'm Cartesian",
                );
 
-               my $lp = Lexical::Persistence−>new();
+               my $lp = Lexical::Persistence->new();
                while (my ($animal, $sound) = each %animals) {
-                       $lp−>call(\&display, animal => $animal, sound => $sound);
+                       $lp->call(\&display, animal => $animal, sound => $sound);
                }
 
                sub display {
@@ -110,7 +110,7 @@ DDEESSCCRRIIPPTTIIOONN
 
        And the corresponding output:
 
-               The plane goes... I’m Cartesian!
+               The plane goes... I'm Cartesian!
                The snake goes... hiss!
 
        Sometimes you want to call functions normally.  The _w_r_a_p_(_) method will
@@ -119,10 +119,10 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               my $thunk = $lp−>wrap(\&display);
+               my $lp = Lexical::Persistence->new();
+               my $thunk = $lp->wrap(\&display);
 
-               $thunk−>(animal => "squirrel", sound => "nuts");
+               $thunk->(animal => "squirrel", sound => "nuts");
 
                sub display {
                        my ($arg_animal, $arg_sound);
@@ -134,8 +134,8 @@ DDEESSCCRRIIPPTTIIOONN
                The squirrel goes... nuts!
 
        Prefixes are the characters leading up to the first underscore in a
-       lexical variable’s name.  However, there’s also a default context named
-       underscore.  It’s literally "_" because the underscore is not legal in
+       lexical variable's name.  However, there's also a default context named
+       underscore.  It's literally "_" because the underscore is not legal in
        a context name by default.  Variables without prefixes, or with
        prefixes that have not been previously defined by _s_e_t___c_o_n_t_e_x_t_(_), are
        stored in that context.
@@ -145,16 +145,16 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               $lp−>set_context(
+               my $lp = Lexical::Persistence->new();
+               $lp->set_context(
                        _ => {
-                               ’@mind’ => [qw(My mind is going. I can feel it.)]
+                               '@mind' => [qw(My mind is going. I can feel it.)]
                        }
                );
 
                while (1) {
-                       $lp−>call(\&display);
-                       my $mind = $lp−>get_context("_")−>{’@mind’};
+                       $lp->call(\&display);
+                       my $mind = $lp->get_context("_")->{'@mind'};
                        splice @$mind, rand(@$mind), 1;
                        last unless @$mind;
                }
@@ -175,19 +175,19 @@ DDEESSCCRRIIPPTTIIOONN
                My I
                My
 
-       It’s possible to create multiple Lexical::Persistence objects, each
+       It's possible to create multiple Lexical::Persistence objects, each
        with a unique state.
 
                use Lexical::Persistence;
 
-               my $lp_1 = Lexical::Persistence−>new();
-               $lp_1−>set_context( _ => { ’$foo’ => "context 1’s foo" } );
+               my $lp_1 = Lexical::Persistence->new();
+               $lp_1->set_context( _ => { '$foo' => "context 1's foo" } );
 
-               my $lp_2 = Lexical::Persistence−>new();
-               $lp_2−>set_context( _ => { ’$foo’ => "the foo in context 2" } );
+               my $lp_2 = Lexical::Persistence->new();
+               $lp_2->set_context( _ => { '$foo' => "the foo in context 2" } );
 
-               $lp_1−>call(\&display);
-               $lp_2−>call(\&display);
+               $lp_1->call(\&display);
+               $lp_2->call(\&display);
 
                sub display {
                        print my $foo, "\n";
@@ -195,7 +195,7 @@ DDEESSCCRRIIPPTTIIOONN
 
        Gets you this output:
 
-               context 1’s foo
+               context 1's foo
                the foo in context 2
 
        You can also compile and execute perl code contained in plain strings
@@ -204,11 +204,11 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
+               my $lp = Lexical::Persistence->new();
 
-               $lp−>do( ’my $message = "Hello, world" );
+               $lp->do( 'my $message = "Hello, world" );
 
-               $lp−>do( ’print "$message\n"’ );
+               $lp->do( 'print "$message\n"' );
 
        Which gives the output:
 
@@ -234,15 +234,15 @@ DDEESSCCRRIIPPTTIIOONN
 
        Store a context HASH within the persistence object, keyed on a NAME.
        Members of the context HASH are unprefixed versions of the lexicals
-       they’ll persist, including the sigil.  For example, this _s_e_t___c_o_n_t_e_x_t_(_)
+       they'll persist, including the sigil.  For example, this _s_e_t___c_o_n_t_e_x_t_(_)
        call declares a "request" context with predefined values for three
        variables: $request_foo, @request_foo, and %request_foo:
 
-               $lp−>set_context(
+               $lp->set_context(
                        request => {
-                               ’$foo’ => ’value of $request_foo’,
-                               ’@foo’ => [qw( value of @request_foo )],
-                               ’%foo’ => { key => ’value of $request_foo{key}’ }
+                               '$foo' => 'value of $request_foo',
+                               '@foo' => [qw( value of @request_foo )],
+                               '%foo' => { key => 'value of $request_foo{key}' }
                        }
                );
 
@@ -252,7 +252,7 @@ DDEESSCCRRIIPPTTIIOONN
        ggeett__ccoonntteexxtt NNAAMMEE
 
        Returns a context hash associated with a particular context name.
-       Autovivifies the context if it doesn’t already exist, so be careful
+       Autovivifies the context if it doesn't already exist, so be careful
        there.
 
        ccaallll CCOODDEERREEFF,, AARRGGUUMMEENNTT__LLIISSTT
@@ -260,11 +260,11 @@ DDEESSCCRRIIPPTTIIOONN
        Call CODEREF with lexical persistence and an optional ARGUMENT_LIST,
        consisting of name => value pairs.  Unlike with _s_e_t___c_o_n_t_e_x_t_(_), however,
        argument names do not need sigils.  This may change in the future,
-       however, as it’s easy to access an argument with the wrong variable
+       however, as it's easy to access an argument with the wrong variable
        type.
 
        The ARGUMENT_LIST is passed to the called CODEREF through @_ in the
-       usual way.  They’re also available as $arg_name variables for
+       usual way.  They're also available as $arg_name variables for
        convenience.
 
        See _p_u_s_h___a_r_g___c_o_n_t_e_x_t_(_) for information about how $arg_name works, and
@@ -272,17 +272,17 @@ DDEESSCCRRIIPPTTIIOONN
 
        iinnvvookkee OOBBJJEECCTT,, MMEETTHHOODD,, AARRGGUUMMEENNTT__LLIISSTT
 
-       Invoke OBJECT−>METHOD(ARGUMENT_LIST) while maintaining state for the
-       METHOD’s lexical variables.  Written in terms of _c_a_l_l_(_), except that it
+       Invoke OBJECT->METHOD(ARGUMENT_LIST) while maintaining state for the
+       METHOD's lexical variables.  Written in terms of _c_a_l_l_(_), except that it
        takes OBJECT and METHOD rather than CODEREF.  See _c_a_l_l_(_) for more
        details.
 
        May have issues with methods invoked via AUTOLOAD, as _i_n_v_o_k_e_(_) uses
-       _c_a_n_(_) to find the method’s CODEREF for _c_a_l_l_(_).
+       _c_a_n_(_) to find the method's CODEREF for _c_a_l_l_(_).
 
        wwrraapp CCOODDEERREEFF
 
-       Wrap a function or anonymous CODEREF so that it’s transparently called
+       Wrap a function or anonymous CODEREF so that it's transparently called
        via _c_a_l_l_(_).  Returns a coderef which can be called directly.  Named
        arguments to the call will automatically become available as $arg_name
        lexicals within the called CODEREF.
@@ -294,12 +294,12 @@ DDEESSCCRRIIPPTTIIOONN
        Wrap a CODE string in a subroutine definition, and prepend declarations
        for all the variables stored in the Lexical::Persistence default
        context.  This avoids having to declare variables explicitly in the
-       code using ’my’.  Returns a new code string ready for Perl’s built‐in
-       _e_v_a_l_(_).  From there, a program may $lp−>_c_a_l_l_(_) the code or $lp−>_w_r_a_p_(_)
+       code using 'my'.  Returns a new code string ready for Perl's built-in
+       _e_v_a_l_(_).  From there, a program may $lp->_c_a_l_l_(_) the code or $lp->_w_r_a_p_(_)
        it.
 
        Also see "_c_o_m_p_i_l_e_(_)", which is a convenient wrapper for _p_r_e_p_a_r_e_(_) and
-       Perl’s built‐in _e_v_a_l_(_).
+       Perl's built-in _e_v_a_l_(_).
 
        Also see "_d_o_(_)", which is a convenient way to _p_r_e_p_a_r_e_(_), _e_v_a_l_(_) and
        _c_a_l_l_(_) in one step.
@@ -313,7 +313,7 @@ DDEESSCCRRIIPPTTIIOONN
        ddoo CCOODDEE
 
        _d_o_(_) is a convenience method to _c_o_m_p_i_l_e_(_) a CODE string and execute it.
-       It returns the result of CODE’s execution, or it throws an exception on
+       It returns the result of CODE's execution, or it throws an exception on
        failure.
 
        This example prints the numbers 1 through 10.  Note, however, that _d_o_(_)
@@ -321,9 +321,9 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               $lp−>do(’my $count = 0’);
-               $lp−>do(’print ++$count, "\\n"’) for 1..10;
+               my $lp = Lexical::Persistence->new();
+               $lp->do('my $count = 0');
+               $lp->do('print ++$count, "\\n"') for 1..10;
 
        Lexical declarations are preserved across _d_o_(_) invocations, such as
        with $count in the surrounding examples.  This behavior is part of
@@ -335,12 +335,12 @@ DDEESSCCRRIIPPTTIIOONN
 
                use Lexical::Persistence;
 
-               my $lp = Lexical::Persistence−>new();
-               $lp−>do(’my $count = 0’);
-               my $coderef = $lp−>compile(’print ++$count, "\\n"’);
-               $lp−>call($coderef) for 1..10;
+               my $lp = Lexical::Persistence->new();
+               $lp->do('my $count = 0');
+               my $coderef = $lp->compile('print ++$count, "\\n"');
+               $lp->call($coderef) for 1..10;
 
-       _d_o_(_) inherits some limitations from PadWalker’s _p_e_e_k___s_u_b_(_).  For
+       _d_o_(_) inherits some limitations from PadWalker's _p_e_e_k___s_u_b_(_).  For
        instance, it cannot alias lexicals within _s_u_b_(_) definitions in the
        supplied CODE string.  However, Lexical::Persistence can do this with
        careful use of _e_v_a_l_(_) and some custom CODE preparation.
@@ -348,8 +348,8 @@ DDEESSCCRRIIPPTTIIOONN
        ppaarrssee__vvaarriiaabbllee VVAARRIIAABBLLEE__NNAAMMEE
 
        This method determines whether VARIABLE_NAME should be persistent.  If
-       it should, _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) will return three values: the variable’s
-       sigil (’$’, ’@’ or ’%’), the context name in which the variable
+       it should, _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) will return three values: the variable's
+       sigil ('$', '@' or '%'), the context name in which the variable
        persists (see _s_e_t___c_o_n_t_e_x_t_(_)), and the name of the member within that
        context where the value is stored.  _p_a_r_s_e___v_a_r_i_a_b_l_e_(_) returns nothing if
        VARIABLE_NAME should not be persistent.
@@ -359,7 +359,7 @@ DDEESSCCRRIIPPTTIIOONN
        have no sigils.  This is done to support the unadorned argument names
        used by _c_a_l_l_(_).
 
-       This method implements a default behavior.  It’s intended to be
+       This method implements a default behavior.  It's intended to be
        overridden or extended by subclasses.
 
        ggeett__mmeemmbbeerr__rreeff SSIIGGIILL,, CCOONNTTEEXXTT,, MMEEMMBBEERR
@@ -371,10 +371,10 @@ DDEESSCCRRIIPPTTIIOONN
        Scalar values are stored internally as scalars to be consistent with
        how most people store scalars.
 
-       The persistent value is created if it doesn’t exist.  The initial value
+       The persistent value is created if it doesn't exist.  The initial value
        is undef or empty, depending on its type.
 
-       This method implements a default behavior.  It’s intended to be
+       This method implements a default behavior.  It's intended to be
        overridden or extended by subclasses.
 
        ppuusshh__aarrgg__ccoonntteexxtt AARRGGUUMMEENNTT__LLIISSTT
@@ -384,7 +384,7 @@ DDEESSCCRRIIPPTTIIOONN
        variables are supported.  This method returns the previous context,
        fetched by _g_e_t___c_o_n_t_e_x_t_(_) before the new context is set.
 
-       This method implements a default behavior.  It’s intended to be
+       This method implements a default behavior.  It's intended to be
        overridden or extended by subclasses.  For example, to redefine the
        parameters as $param_foo.
 
@@ -394,25 +394,30 @@ DDEESSCCRRIIPPTTIIOONN
 
        Restores OLD_ARG_CONTEXT after a target function has returned.  The
        OLD_ARG_CONTEXT is the return value from the _p_u_s_h___a_r_g___c_o_n_t_e_x_t_(_) call
-       just prior to the target function’s call.
+       just prior to the target function's call.
 
-       This method implements a default behavior.  It’s intended to be
+       This method implements a default behavior.  It's intended to be
        overridden or extended by subclasses.
-
-BBUUGGSS
-       Read them at
-       http://rt.cpan.org/Public/Dist/Display.html?Name=lexical−persistence
-
-       Report them at
-       http://rt.cpan.org/Public/Bug/Report.html?Queue=lexical−persistence
 
 SSEEEE AALLSSOO
        POE::Stage, Devel::LexAlias, PadWalker, Catalyst::Controller::BindLex.
 
+       BBUUGG TTRRAACCKKEERR
+
+       https://rt.cpan.org/Dist/Display.html?Status=Active&Queue=Lexical-Persistence
+
+       RREEPPOOSSIITTOORRYY
+
+       http://thirdlobe.com/svn/lex-per/
+
+       OOTTHHEERR RREESSOOUURRCCEESS
+
+       http://search.cpan.org/dist/Lexical-Persistence/
+
 CCOOPPYYRRIIGGHHTT
-       Lexical::Persistence in copyright 2006 by Rocco Caputo.  All rights
-       reserved.  Lexical::Persistence is free software.  It is released under
-       the same terms as Perl itself.
+       Lexical::Persistence in copyright 2006-2009 by Rocco Caputo.  All
+       rights reserved.  Lexical::Persistence is free software.  It is
+       released under the same terms as Perl itself.
 
 AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
        Thanks to Matt Trout and Yuval Kogman for lots of inspiration.  They
@@ -431,4 +436,4 @@ AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
 
 
 
-perl v5.8.8                       2008‐11‐07           Lexical::Persistence(3)
+perl v5.10.0                      2009-07-27           Lexical::Persistence(3)

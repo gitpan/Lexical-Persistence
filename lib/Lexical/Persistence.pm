@@ -1,4 +1,4 @@
-# $Id: Persistence.pm 18 2008-11-07 18:11:57Z rcaputo $
+# $Id: Persistence.pm 22 2009-07-27 16:08:19Z rcaputo $
 
 =head1 NAME
 
@@ -222,7 +222,7 @@ package Lexical::Persistence;
 use warnings;
 use strict;
 
-our $VERSION = '0.98';
+our $VERSION = '1.01';
 
 use Devel::LexAlias qw(lexalias);
 use PadWalker qw(peek_sub);
@@ -599,24 +599,28 @@ sub pop_arg_context {
 	$self->set_context( arg => $old_context );
 }
 
-=head1 BUGS
-
-Read them at
-http://rt.cpan.org/Public/Dist/Display.html?Name=lexical-persistence
-
-Report them at
-http://rt.cpan.org/Public/Bug/Report.html?Queue=lexical-persistence
-
 =head1 SEE ALSO
 
 L<POE::Stage>, L<Devel::LexAlias>, L<PadWalker>,
 L<Catalyst::Controller::BindLex>.
 
+=head2 BUG TRACKER
+
+https://rt.cpan.org/Dist/Display.html?Status=Active&Queue=Lexical-Persistence
+
+=head2 REPOSITORY
+
+http://thirdlobe.com/svn/lex-per/
+
+=head2 OTHER RESOURCES
+
+http://search.cpan.org/dist/Lexical-Persistence/
+
 =head1 COPYRIGHT
 
-Lexical::Persistence in copyright 2006 by Rocco Caputo.  All rights
-reserved.  Lexical::Persistence is free software.  It is released
-under the same terms as Perl itself.
+Lexical::Persistence in copyright 2006-2009 by Rocco Caputo.  All
+rights reserved.  Lexical::Persistence is free software.  It is
+released under the same terms as Perl itself.
 
 =head1 ACKNOWLEDGEMENTS
 

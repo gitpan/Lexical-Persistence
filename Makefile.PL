@@ -1,4 +1,4 @@
-# $Id: Makefile.PL 9 2006-11-17 06:29:03Z rcaputo $
+# $Id: Makefile.PL 21 2009-07-27 04:48:07Z rcaputo $
 
 use warnings;
 use strict;
@@ -19,20 +19,26 @@ WriteMakefile(
 	NAME => 'Lexical::Persistence',
 	AUTHOR => 'Rocco Caputo <rcaputo@cpan.org>',
 	ABSTRACT => 'Persistent, continuation-like contexts for lexical variables.',
-  VERSION_FROM => 'lib/Lexical/Persistence.pm',
+	VERSION_FROM => 'lib/Lexical/Persistence.pm',
 	LICENSE => 'perl',
-  dist           => {
-    COMPRESS => 'gzip -9f',
-    SUFFIX   => 'gz',
-    PREOP    => (
-      '../repo-tools/svn-log.perl | ' .
-      '/usr/bin/tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES; ' .
-			'perldoc lib/Lexical/Persistence.pm | ' .
+	META_ADD     => {
+		resources  => {
+			license    => 'http://dev.perl.org/licenses/',
+			repository => 'http://thirdlobe.com/svn/lex-per/trunk'
+		},
+	},
+	dist           => {
+		COMPRESS => 'gzip -9f',
+		SUFFIX   => 'gz',
+		PREOP    => (
+			'../repo-tools/svn-log.perl | ' .
+			'/usr/bin/tee ./$(DISTNAME)-$(VERSION)/CHANGES > ./CHANGES; ' .
+			'LANG=C perldoc lib/Lexical/Persistence.pm | ' .
 			'/usr/bin/tee ./$(DISTNAME)-$(VERSION)/README > ./README'
-    ),
-  },
+		),
+	},
 
-  PREREQ_PM => {
+	PREREQ_PM => {
 		'Devel::LexAlias' => 0.04,
 		'PadWalker' => 1.1,
 	},
