@@ -1,4 +1,3 @@
-# $Id: 02_pod.t 2 2006-11-14 08:25:55Z rcaputo $
 # vim: filetype=perl
 
 use Test::More;

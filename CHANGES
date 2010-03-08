@@ -1,47 +1,41 @@
-=================================
-2009-07-27T16:08:44.238440Z v1_01
-=================================
+================================
+2010-03-08 02:11:05 -0500 v1_020
+================================
 
-  2009-07-27 16:08:19 (r22) by rcaputo; lib/Lexical/Persistence.pm M
+  commit 80b29a80ddfb87de00fda2d1f968662fb346096c
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Mon Mar 8 02:11:05 2010 -0500
+  
+    Prepare for git repository and distribution toolchain.
 
+  commit 5e7c550711e13addbefb19637771455e3985fc40
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Mon Mar 8 01:52:25 2010 -0500
+  
+    Rearrange files for git repository. 
+
+===============================
+2009-07-27 16:08:19 -0400 v1_01
+===============================
+
+  commit 779f77464e5d35e547d9b326b7621e2524ce4d10
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Mon Jul 27 16:08:19 2009 -0400
+  
     Reorganize documentation links.
 
-  2009-07-27 04:48:07 (r21) by rcaputo
-  lib/Lexical/Persistence.pm M; Makefile.PL M
-
+  commit d50d07cebcf72c911922343ae5518eee377cd839
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Mon Jul 27 04:48:07 2009 -0400
+  
     Added a machine-readable repository directory to the distribution.
-    Documented the bug tracker, repository, and other resource URLs. 
+    Documented the bug tracker, repository, and other resource URLs.
 
-  2008-12-15 16:19:56 (r20) by rcaputo; Makefile.PL M
-
-    Keep UTF8 out of the README, because that messes up the SYNOPSIS.
-
-=================================
-2008-11-07T18:12:14.808090Z v0_98
-=================================
-
-  2008-11-07 18:11:57 (r18) by rcaputo; lib/Lexical/Persistence.pm M
-
-    Ready for 0.98
-
-  2008-11-07 04:36:12 (r17) by rcaputo; lib/Lexical/Persistence.pm M
-
-    Replace eval() with do() in the docs. Note that lexical declarations
-    are preserved by compile(), which is used by do(), so declared
-    variables need not be redeclared all the time.
-
-  2008-11-03 20:02:16 (r16) by rcaputo; t/04_eval.t M
-
-    Fix tests to use do() rather than eval().
-
-  2008-11-03 19:57:55 (r15) by rcaputo; lib/Lexical/Persistence.pm M
-
-    Another attempt at eval(), this time called do().
-
-  2008-11-01 05:38:30 (r14) by rcaputo
-  t/04_eval.t A; MANIFEST M; lib/Lexical/Persistence.pm M
-
-    Apply Paul "LeoNerd" Evans' patch to add compile() and eval(). 
+  commit 96325c0f9c3ea7314b15025f7ee5c920907175c9
+  Author: Rocco Caputo <rcaputo@cpan.org>
+  Date:   Mon Dec 15 16:19:56 2008 -0500
+  
+    Keep UTF8 out of the README, because that messes up the SYNOPSIS. 
 
 ==============
 End of Excerpt

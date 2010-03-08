@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Lexical-Persistence
-version:            1.01
+version:            1.020
 abstract:           Persistent, continuation-like contexts for lexical variables.
 author:
     - Rocco Caputo <rcaputo@cpan.org>
@@ -15,7 +15,7 @@ requires:
     PadWalker:        1.1
 resources:
     license:     http://dev.perl.org/licenses/
-    repository:  http://thirdlobe.com/svn/lex-per/trunk
+    repository:  http://github.com/rcaputo/lexical-persistence
 no_index:
     directory:
         - t

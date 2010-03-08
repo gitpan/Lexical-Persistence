@@ -1,5 +1,4 @@
 #!perl
-# $Id: 01_basics.t 10 2006-11-20 04:23:59Z rcaputo $
 
 use warnings;
 use strict;

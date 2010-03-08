@@ -408,14 +408,15 @@ SSEEEE AALLSSOO
 
        RREEPPOOSSIITTOORRYY
 
-       http://thirdlobe.com/svn/lex-per/
+       http://github.com/rcaputo/lexical-persistence
+       http://gitorious.org/lexical-persistence
 
        OOTTHHEERR RREESSOOUURRCCEESS
 
        http://search.cpan.org/dist/Lexical-Persistence/
 
 CCOOPPYYRRIIGGHHTT
-       Lexical::Persistence in copyright 2006-2009 by Rocco Caputo.  All
+       Lexical::Persistence in copyright 2006-2010 by Rocco Caputo.  All
        rights reserved.  Lexical::Persistence is free software.  It is
        released under the same terms as Perl itself.
 
@@ -436,4 +437,4 @@ AACCKKNNOOWWLLEEDDGGEEMMEENNTTSS
 
 
 
-perl v5.10.0                      2009-07-27           Lexical::Persistence(3)
+perl v5.10.0                      2010-03-08           Lexical::Persistence(3)
