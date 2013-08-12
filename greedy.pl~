@@ -1,0 +1,16 @@
+use strict;
+use warnings;
+use Lexical::Persistence;
+
+my $environment = Lexical::Persistence->new;
+$environment->call(
+	sub {
+		my $foo = shift;
+		{ my $abc = 10 };
+		return $foo;
+	}
+);
+
+use Devel::Peek;
+print Devel::Peek::Dump($environment->get_context('_')->{'$abc'});
+
