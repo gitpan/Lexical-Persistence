@@ -27,4 +27,4 @@ resources:
   homepage: http://search.cpan.org/dist/Lexical-Persistence/
   license: http://dev.perl.org/licenses/
   repository: git://github.com/rcaputo/lexical-persistence.git
-version: 1.022
+version: 1.023

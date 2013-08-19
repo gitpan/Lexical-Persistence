@@ -4,7 +4,7 @@ Lexical::Persistence - Persistent lexical variable values for arbitrary calls.
 
 =head1 VERSION
 
-version 1.022
+version 1.023
 
 =head1 SYNOPSIS
 
